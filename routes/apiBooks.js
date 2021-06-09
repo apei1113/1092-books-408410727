@@ -5,8 +5,7 @@ const fetch = require('node-fetch');
 router.get('/', async function (req, res, next) {
     // let data;
     try {
-      // const [rows] = await db.query('SELECT * FROM dbdemo.books ORDER BY id desc');
-      // const [rows] = await db.query('SELECT * FROM `0521`.w15 ORDER BY id desc');
+      
       // const [rows] = await db.query('SELECT * FROM `0521`.books_copy ORDER BY ClassName desc'); //不撈SQL的資料
 
       const response = await fetch('http://localhost:1337/Assignments');
@@ -23,8 +22,7 @@ router.get('/', async function (req, res, next) {
 router.get('/add', async function (req, res, next) {
   // res.send('display add book page')
   res.render('apiBooks/add', {
-    // name: '',
-    // author: '',
+    
     ClassName: '',
     HW_Name: '',
     HW_Grade: '',
@@ -36,8 +34,6 @@ router.get('/add', async function (req, res, next) {
 router.post('/add', async function (req, res, next) {
   // res.send('Add a new book.')
 
-  // const name = req.body.name;
-  // const author = req.body.author;
   const ClassName = req.body.ClassName;
   const HW_Name = req.body.HW_Name;
   const HW_Grade = req.body.HW_Grade;
@@ -46,16 +42,12 @@ router.post('/add', async function (req, res, next) {
   console.log(ClassName, HW_Name, HW_Grade);
 
   const form_data = {
-    // name: name,
-    // author: author,
     ClassName: ClassName,
     HW_Name: HW_Name,
     HW_Grade: HW_Grade,
   };
   
   try {
-    // await db.query('INSERT INTO books SET ?', form_data);
-    // await db.query('INSERT INTO `0521`.w15 SET ?', form_data);
     // await db.query('INSERT INTO `0521`.books_copy SET ?', form_data);
  
     const response = await fetch('http://localhost:1337/Assignments', {
@@ -111,50 +103,47 @@ router.post('/update', async function (req, res, next) {
   const HW_Grade = req.body.HW_Grade;
   const id = req.body.id;
 
-  try {
-
-      
-
-      await db.query('UPDATE `0521`.books_copy SET ClassName = ?, HW_Name = ?, HW_Grade = ? WHERE id = ?',[
-      // name,
-      // author,
-      ClassName,
-      HW_Name,
-      HW_Grade,
-      id,
-    ]);
-    // res.status(200).json({ message: 'Updating successful' });
-    res.redirect('/books');
-  } catch(err){
-    console.log(err);
-  }
-});
-
-router.post('/update', async function (req, res, next) {
-  // res.send('update book data');
-  // const name = req.body.name;
-  // const author = req.body.author;
-  const ClassName = req.body.ClassName;
-  const HW_Name = req.body.HW_Name;
-  const HW_Grade = req.body.HW_Grade;
-  const id = req.body.id;
+  const form_data = {
+    ClassName: ClassName,
+    HW_Name: HW_Name,
+    HW_Grade: HW_Grade,
+  };
 
   try {
-    // await db.query('UPDATE books SET name = ?, author = ? WHERE id = ?',[
-    // await db.query('UPDATE `0521`.w15 SET name = ?, author = ? WHERE id = ?',[
-      await db.query('UPDATE `0521`.books_copy SET ClassName = ?, HW_Name = ?, HW_Grade = ? WHERE id = ?',[
-      // name,
-      // author,
-      ClassName,
-      HW_Name,
-      HW_Grade,
-      id,
-    ]);
-    // res.status(200).json({ message: 'Updating successful' });
+
+    const response = await fetch(`http://localhost:1337/Assignments/${id}`, {
+        method: 'put',
+        body:    JSON.stringify(form_data),
+        headers: { 'Content-Type': 'application/json' },
+    });
+
+    const data = await response.json();
+
     res.redirect('/apiBooks');
   } catch(err){
     console.log(err);
   }
 });
+
+router.get('/delete/:id', async function (req, res, next) {
+    // router.get('/delete/:ClassName', async function (req, res, next) {
+    let id = req.params.id;
+    // let ClassName = req.params.ClassName;
+  
+    try {
+      
+      const response = await fetch(`http://localhost:1337/Assignments/${id}`, {
+        method: 'delete'
+      });
+
+    const data = await response.json();
+
+    res.redirect('/apiBooks');
+
+    } catch (err) {
+      console.log(err);
+    }
+    res.redirect('/books');
+  });
 
 module.exports = router;
