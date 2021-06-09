@@ -21,7 +21,7 @@
               <a class="nav-link">Books</a>
             </li>
             <li class="nav-pill ml-auto">
-              <a class="nav-link active" href="/books/add">Add Book</a>
+              <a class="nav-link active" href="/apiBooks/add">Add Book</a>
             </li>
           </ul>
         </div>
@@ -51,13 +51,13 @@
                 <td>
                   <a
                     class="btn btn-success edit"
-                    href="/books/edit/<%=data[i].id%>"
+                    href="/apiBooks/edit/<%=data[i].id%>"
                     >Edit</a
                   >
                   <a
                     class="btn btn-danger delete"
                     onclick="return alert('Are You sure?')"
-                    href="/books/delete/<%=data[i].id%>"
+                    href="/apiBooks/delete/<%=data[i].id%>"
                     >Delete</a
                   >
                 </td>
