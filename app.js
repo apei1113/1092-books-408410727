@@ -12,6 +12,8 @@ var db  = require('./lib/db');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var booksRouter = require('./routes/books');
+const assignmentsRouter = require('./routes/assignments');
+const subjectsRouter = require('./routes/subjects');
 
 const apiBooksRouter = require('./routes/apiBooks');
 
@@ -30,8 +32,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/books', booksRouter);
+app.use('/assignments', assignmentsRouter);
+app.use('/subjects', subjectsRouter);
 
 app.use('/apiBooks', apiBooksRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
